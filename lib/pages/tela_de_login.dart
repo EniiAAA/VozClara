@@ -229,50 +229,6 @@ class TelaDeLogin extends StatelessWidget {
                   ],
                 ),
                 SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Color(0xFFFFFFFF),
-                        borderRadius: BorderRadius.circular(24),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(13.6),
-                        child: SvgPicture.asset(
-                          'assets/vectors/super_g_x2.svg',
-                          width: 20.8,
-                          height: 20.8,
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: 12),
-                    Container(
-                      width: 48,
-                      height: 48,
-                      child: SvgPicture.asset(
-                        'assets/vectors/facebook_x2.svg',
-                        width: 48,
-                        height: 48,
-                      ),
-                    ),
-                    SizedBox(width: 12),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Color(0xFFFFFFFF),
-                        borderRadius: BorderRadius.circular(24),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(10.3),
-                        child: SvgPicture.asset(
-                          'assets/vectors/shape_1_x2.svg',
-                          width: 24,
-                          height: 28.1,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
               ],
             ),
           ),
