@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "742647208214",
+    "project_id": "vozclara-f7843",
+    "storage_bucket": "vozclara-f7843.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:742647208214:android:edc50578098fb81aee5837",
+        "android_client_info": {
+          "package_name": "com.example.flutter_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCDSKtytqe0XEKpUwn7VZRiZV7huGCfbT4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
