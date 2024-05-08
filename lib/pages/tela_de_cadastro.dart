@@ -6,7 +6,7 @@ import 'package:firebase_database/firebase_database.dart';
 class TelaDeCadastro extends StatelessWidget {
   TelaDeCadastro({Key? key}) : super(key: key);
 
-  // Adicione a chave global para o formulário
+  //chave global para o formulário
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   // Declaração dos controladores de texto

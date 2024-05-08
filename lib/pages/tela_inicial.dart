@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'tela_de_contatos.dart'; // Importe a tela de contatos
 
 class TelaInicial extends StatelessWidget {
@@ -48,69 +47,6 @@ class TelaInicial extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 20),
-                Container(
-                  margin: EdgeInsets.only(bottom: 20),
-                  child: Text(
-                    'Lorem ipsum',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 25,
-                      color: Color(0xFF000000),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 20),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      // Abrir a câmera para realizar a leitura do QRCode da turma
-                      _openCamera(context);
-                    },
-                    style: ButtonStyle(
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10), // Define a borda menos arredondada
-                        ),
-                      ),
-                      minimumSize: MaterialStateProperty.all(Size(double.infinity, 50)), // Define a largura mínima
-                      backgroundColor: MaterialStateProperty.all(Color(0xFF0098FF)), // Define a cor de fundo do botão
-                    ),
-                    child: Text(
-                      'Ler QRCode da Turma',
-                      style: TextStyle(
-                        color: Color(0xFFFFFFFF), // Define a cor do texto dentro do botão
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 20),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      // Navegar para as turmas que o aluno já leu o QRCode
-                      _navigateToTurmasLidas(context);
-                    },
-                    style: ButtonStyle(
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10), // Define a borda menos arredondada
-                        ),
-                      ),
-                      minimumSize: MaterialStateProperty.all(Size(double.infinity, 50)), // Define a largura mínima
-                      backgroundColor: MaterialStateProperty.all(Color(0xFF0098FF)), // Define a cor de fundo do botão
-                    ),
-                    child: Text(
-                      'Turmas Lidas',
-                      style: TextStyle(
-                        color: Color(0xFFFFFFFF), // Define a cor do texto dentro do botão
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 20),
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
@@ -126,9 +62,60 @@ class TelaInicial extends StatelessWidget {
                       ),
                       minimumSize: MaterialStateProperty.all(Size(double.infinity, 50)), // Define a largura mínima
                       backgroundColor: MaterialStateProperty.all(Color(0xFF0098FF)), // Define a cor de fundo do botão
+                      padding: MaterialStateProperty.all(EdgeInsets.zero), // Define o padding do botão
                     ),
                     child: Text(
                       'Contato',
+                      style: TextStyle(
+                        color: Color(0xFFFFFFFF), // Define a cor do texto dentro do botão
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 10), // Adiciona espaçamento entre os botões
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      // Adicione a lógica para ler o QR CODE
+                      _lerQRCode(context);
+                    },
+                    style: ButtonStyle(
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10), // Define a borda menos arredondada
+                        ),
+                      ),
+                      minimumSize: MaterialStateProperty.all(Size(double.infinity, 50)), // Define a largura mínima
+                      backgroundColor: MaterialStateProperty.all(Color(0xFF0098FF)), // Define a cor de fundo do botão
+                    ),
+                    child: Text(
+                      'Ler QR CODE',
+                      style: TextStyle(
+                        color: Color(0xFFFFFFFF), // Define a cor do texto dentro do botão
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 10), // Adiciona espaçamento entre os botões
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      // Adicione a lógica para acessar suas turmas
+                      _acessarTurmas(context);
+                    },
+                    style: ButtonStyle(
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10), // Define a borda menos arredondada
+                        ),
+                      ),
+                      minimumSize: MaterialStateProperty.all(Size(double.infinity, 50)), // Define a largura mínima
+                      backgroundColor: MaterialStateProperty.all(Color(0xFF0098FF)), // Define a cor de fundo do botão
+                    ),
+                    child: Text(
+                      'Acessar suas turmas',
                       style: TextStyle(
                         color: Color(0xFFFFFFFF), // Define a cor do texto dentro do botão
                       ),
@@ -151,25 +138,21 @@ class TelaInicial extends StatelessWidget {
     Navigator.pushNamedAndRemoveUntil(context, '/tela_de_login', (route) => false);
   }
 
-  // Função para abrir a câmera
-  void _openCamera(BuildContext context) {
-    // Adicione aqui a lógica para abrir a câmera para ler o QRCode da turma
-    // Esta é apenas uma simulação para fins de exemplo
-    print('Abrindo a câmera...');
-  }
-
-  // Função para navegar para as turmas lidas
-  void _navigateToTurmasLidas(BuildContext context) {
-    // Adicione aqui a lógica para navegar para a tela de turmas lidas
-    // Esta é apenas uma simulação para fins de exemplo
-    print('Navegando para as turmas lidas...');
-  }
-
   // Função para mostrar as opções de contato da instituição
   void _showContactOptions(BuildContext context) {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => TelaContatos()),
     );
+  }
+
+  // Função para ler o QR CODE
+  void _lerQRCode(BuildContext context) {
+    // Adicione aqui a lógica para ler o QR CODE
+  }
+
+  // Função para acessar suas turmas
+  void _acessarTurmas(BuildContext context) {
+    // Adicione aqui a lógica para acessar as turmas do usuário
   }
 }
