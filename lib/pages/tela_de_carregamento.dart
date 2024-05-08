@@ -13,7 +13,7 @@ class _TelaDeCarregamentoState extends State<TelaDeCarregamento> {
   void initState() {
     super.initState();
     // Inicia o timer para navegar para a tela de login após 5 segundos
-    Timer(Duration(seconds: 5), () {
+    Timer(Duration(seconds: 3), () {
       Navigator.pushReplacementNamed(context, '/tela_de_login');
     });
   }

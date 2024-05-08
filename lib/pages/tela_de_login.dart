@@ -1,12 +1,68 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class TelaDeLogin extends StatelessWidget {
   const TelaDeLogin({Key? key}) : super(key: key);
 
+  // Método para realizar o login do usuário
+  void loginUser(String email, String password, BuildContext context) async {
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      // Se o login for bem-sucedido, navegue para a tela inicial
+      Navigator.pushReplacementNamed(context, '/tela_inicial');
+    } on FirebaseAuthException catch (e) {
+      // Lidar com erros de autenticação
+      print('Erro ao fazer login: $e');
+
+      // Exibir mensagem de erro para o usuário
+      String errorMessage = 'Erro ao fazer login';
+      if (e.code == 'user-not-found' || e.code == 'wrong-password') {
+        errorMessage = 'E-mail ou senha incorretos';
+      }
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(errorMessage),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
+
+  // Método para enviar um e-mail de redefinição de senha
+  void resetPassword(String email, BuildContext context) async {
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Um e-mail de redefinição de senha foi enviado para $email'),
+          backgroundColor: Colors.green,
+        ),
+      );
+    } catch (e) {
+      print('Erro ao enviar e-mail de redefinição de senha: $e');
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Erro ao enviar e-mail de redefinição de senha'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    String email = ''; // Defina uma variável para armazenar o e-mail
+    String password = ''; // Defina uma variável para armazenar a senha
+
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -51,6 +107,10 @@ class TelaDeLogin extends StatelessWidget {
                       fontSize: 15,
                       color: Color(0x99000000),
                     ),
+                    onChanged: (value) {
+                      // Atualize o valor do email conforme o usuário digita
+                      email = value;
+                    },
                   ),
                 ),
                 SizedBox(height: 10),
@@ -75,12 +135,17 @@ class TelaDeLogin extends StatelessWidget {
                       fontSize: 15,
                       color: Color(0x99000000),
                     ),
+                    onChanged: (value) {
+                      // Atualize o valor da senha conforme o usuário digita
+                      password = value;
+                    },
                   ),
                 ),
                 SizedBox(height: 20),
                 GestureDetector(
                   onTap: () {
-                    // Implemente a ação para "Esqueceu a senha?"
+                    // Chamar o método para enviar um e-mail de redefinição de senha
+                    resetPassword(email, context);
                   },
                   child: Text(
                     'Esqueceu a senha?',
@@ -109,8 +174,8 @@ class TelaDeLogin extends StatelessWidget {
                 SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () {
-                    // Navegar para a tela inicial
-                    Navigator.pushReplacementNamed(context, '/tela_inicial');
+                    // Chamar o método para realizar o login do usuário
+                    loginUser(email, password, context);
                   },
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
