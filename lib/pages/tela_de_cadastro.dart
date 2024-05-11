@@ -15,11 +15,14 @@ class TelaDeCadastro extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-  // Método para salvar os dados do usuário no Realtime Database
+  //salvar os usuário no Realtime Database
   Future<void> saveUserData(String nome, int matricula, String email) async {
     final databaseReference = FirebaseDatabase.instance.reference();
     try {
-      await databaseReference.child('users').child(email.replaceAll('.', ',')).set({
+      await databaseReference
+          .child('users')
+          .child(email.replaceAll('.', ','))
+          .set({
         'nome': nome,
         'matricula': matricula,
         'email': email,
@@ -30,7 +33,7 @@ class TelaDeCadastro extends StatelessWidget {
     }
   }
 
-  // Método para realizar o cadastro do usuário
+  //realizar o cadastro do usuário
   void registerUser(BuildContext context) async {
     final nome = nomeController.text;
     final matricula = matriculaController.text;
@@ -38,7 +41,10 @@ class TelaDeCadastro extends StatelessWidget {
     final password = passwordController.text;
 
     // Verifica se todos os campos estão preenchidos
-    if (nome.isEmpty || matricula.isEmpty || email.isEmpty || password.isEmpty) {
+    if (nome.isEmpty ||
+        matricula.isEmpty ||
+        email.isEmpty ||
+        password.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Todos os campos são obrigatórios'),
@@ -77,7 +83,7 @@ class TelaDeCadastro extends StatelessWidget {
         password: password,
       );
 
-      // Se o cadastro for bem-sucedido, salve os dados do usuário no Realtime Database
+      //salve os dados do usuário no Realtime Database
       await saveUserData(nome, int.parse(matricula), email);
 
       // Exibir mensagem de sucesso
@@ -96,7 +102,8 @@ class TelaDeCadastro extends StatelessWidget {
 
       String errorMessage = 'Erro ao fazer cadastro';
       if (e.code == 'email-already-in-use') {
-        errorMessage = 'E-mail já em uso. Tente fazer login ou recuperar a senha.';
+        errorMessage =
+            'E-mail já em uso. Tente fazer login ou recuperar a senha.';
       }
 
       ScaffoldMessenger.of(context).showSnackBar(
@@ -116,7 +123,8 @@ class TelaDeCadastro extends StatelessWidget {
         leading: IconButton(
           icon: Icon(Icons.arrow_back), // Ícone de voltar
           onPressed: () {
-            Navigator.pop(context); // Navega de volta para a tela anterior (login)
+            Navigator.pop(
+                context); // Navega de volta para a tela anterior (login)
           },
         ),
       ),

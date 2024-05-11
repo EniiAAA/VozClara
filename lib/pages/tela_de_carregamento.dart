@@ -1,34 +1,73 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 
-class TelaDeCarregamento extends StatefulWidget {
+class TelaDeCarregamento extends StatelessWidget {
   const TelaDeCarregamento({Key? key}) : super(key: key);
-
-  @override
-  _TelaDeCarregamentoState createState() => _TelaDeCarregamentoState();
-}
-
-class _TelaDeCarregamentoState extends State<TelaDeCarregamento> {
-  @override
-  void initState() {
-    super.initState();
-    // Inicia o timer para navegar para a tela de login após 5 segundos
-    Timer(Duration(seconds: 3), () {
-      Navigator.pushReplacementNamed(context, '/tela_de_login');
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        color: Colors.white,
-        child: Center(
-          child: Image.asset(
-            'assets/images/voz_claralogo_4.png',
-            width: 265,
-            height: 265,
-            fit: BoxFit.cover,
+      body: Center(
+        child: Container(
+          color: Colors.white,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: 200,
+                height: 200,
+                child: Image.asset(
+                  'assets/images/voz_claralogo_4.png',
+                  fit: BoxFit.contain,
+                ),
+              ),
+              SizedBox(height: 30),
+              ElevatedButton(
+                onPressed: () {
+                  // Navegar para a tela de login do admin
+                  Navigator.pushNamed(context, '/tela_login_admin');
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Color(0xFF0098FF), // Cor do botão
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.7), // Borda arredondada
+                  ),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Text(
+                    'ADMIN',
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.white, // Cor do texto
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 10),
+              ElevatedButton(
+                onPressed: () {
+                  // Navegar para a tela de login do aluno
+                  Navigator.pushNamed(context, '/tela_de_login');
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Color(0xFF0098FF), // Cor do botão
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.7), // Borda arredondada
+                  ),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Text(
+                    'ALUNO',
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.white, // Cor do texto
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ),

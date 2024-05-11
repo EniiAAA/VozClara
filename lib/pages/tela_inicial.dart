@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'tela_de_contatos.dart'; // Importe a tela de contatos
+import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'tela_de_contatos.dart'; 
+import 'tela_historico.dart'; // Importe a tela de histórico
 
 class TelaInicial extends StatelessWidget {
   const TelaInicial({Key? key}) : super(key: key);
@@ -13,7 +15,8 @@ class TelaInicial extends StatelessWidget {
         ),
         child: Center(
           child: Container(
-            padding: EdgeInsets.fromLTRB(19, 30, 19, 50), // Ajustei o padding superior
+            padding: EdgeInsets.fromLTRB(
+                19, 30, 19, 50), // Ajustei o padding superior
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -40,10 +43,8 @@ class TelaInicial extends StatelessWidget {
                         ),
                       ),
                     ),
-                    child: Container(
-                      width: 214,
-                      height: 220,
-                    ),
+                    width: 214,
+                    height: 220,
                   ),
                 ),
                 SizedBox(height: 20),
@@ -54,15 +55,13 @@ class TelaInicial extends StatelessWidget {
                       // Mostrar as opções de contato da instituição
                       _showContactOptions(context);
                     },
-                    style: ButtonStyle(
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10), // Define a borda menos arredondada
-                        ),
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10), // Define a borda menos arredondada
                       ),
-                      minimumSize: MaterialStateProperty.all(Size(double.infinity, 50)), // Define a largura mínima
-                      backgroundColor: MaterialStateProperty.all(Color(0xFF0098FF)), // Define a cor de fundo do botão
-                      padding: MaterialStateProperty.all(EdgeInsets.zero), // Define o padding do botão
+                      minimumSize: Size(double.infinity, 50), // Define a largura mínima
+                      backgroundColor: Color(0xFF0098FF), // Define a cor de fundo do botão
+                      padding: EdgeInsets.zero, // Define o padding do botão
                     ),
                     child: Text(
                       'Contato',
@@ -78,16 +77,17 @@ class TelaInicial extends StatelessWidget {
                   child: ElevatedButton(
                     onPressed: () {
                       // Adicione a lógica para ler o QR CODE
-                      _lerQRCode(context);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => LerQRCodeScreen()),
+                      );
                     },
-                    style: ButtonStyle(
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10), // Define a borda menos arredondada
-                        ),
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10), // Define a borda menos arredondada
                       ),
-                      minimumSize: MaterialStateProperty.all(Size(double.infinity, 50)), // Define a largura mínima
-                      backgroundColor: MaterialStateProperty.all(Color(0xFF0098FF)), // Define a cor de fundo do botão
+                      minimumSize: Size(double.infinity, 50), // Define a largura mínima
+                      backgroundColor: Color(0xFF0098FF), // Define a cor de fundo do botão
                     ),
                     child: Text(
                       'Ler QR CODE',
@@ -105,19 +105,17 @@ class TelaInicial extends StatelessWidget {
                       // Adicione a lógica para acessar suas turmas
                       _acessarTurmas(context);
                     },
-                    style: ButtonStyle(
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10), // Define a borda menos arredondada
-                        ),
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10), // Define a borda menos arredondada
                       ),
-                      minimumSize: MaterialStateProperty.all(Size(double.infinity, 50)), // Define a largura mínima
-                      backgroundColor: MaterialStateProperty.all(Color(0xFF0098FF)), // Define a cor de fundo do botão
+                      minimumSize: Size(double.infinity, 50), // Define a largura mínima
+                      backgroundColor: Color(0xFF0098FF), // Define a cor de fundo do botão
                     ),
                     child: Text(
                       'Acessar suas turmas',
                       style: TextStyle(
-                        color: Color(0xFFFFFFFF), // Define a cor do texto dentro do botão
+                        color: Color(0xFFFFFFFF),
                       ),
                     ),
                   ),
@@ -132,10 +130,8 @@ class TelaInicial extends StatelessWidget {
 
   // Função para realizar o logoff
   void _performLogoff(BuildContext context) {
-    // Adicione aqui a lógica para realizar o logoff do usuário
-    // Por exemplo, você pode limpar o token de autenticação e redirecionar o usuário para a tela de login.
-    // Neste exemplo, estamos apenas navegando de volta para a tela de login e removendo todas as rotas anteriores.
-    Navigator.pushNamedAndRemoveUntil(context, '/tela_de_login', (route) => false);
+    Navigator.pushNamedAndRemoveUntil(
+        context, '/tela_de_carregamento', (route) => false);
   }
 
   // Função para mostrar as opções de contato da instituição
@@ -146,13 +142,62 @@ class TelaInicial extends StatelessWidget {
     );
   }
 
-  // Função para ler o QR CODE
-  void _lerQRCode(BuildContext context) {
-    // Adicione aqui a lógica para ler o QR CODE
-  }
-
   // Função para acessar suas turmas
   void _acessarTurmas(BuildContext context) {
     // Adicione aqui a lógica para acessar as turmas do usuário
+  }
+}
+
+class LerQRCodeScreen extends StatefulWidget {
+  const LerQRCodeScreen({Key? key}) : super(key: key);
+
+  @override
+  _LerQRCodeScreenState createState() => _LerQRCodeScreenState();
+}
+
+class _LerQRCodeScreenState extends State<LerQRCodeScreen> {
+  final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
+  late QRViewController controller;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Ler QR Code'),
+      ),
+      body: Column(
+        children: [
+          Expanded(
+            child: QRView(
+              key: qrKey,
+              onQRViewCreated: _onQRViewCreated,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _onQRViewCreated(QRViewController controller) {
+    setState(() {
+      this.controller = controller;
+    });
+    controller.scannedDataStream.listen((scanData) {
+      // Aqui você pode lidar com os dados do QR Code após a leitura
+      // Por exemplo, você pode processar os dados, exibir em um diálogo, etc.
+      print('Data scanned: ${scanData.code}');
+      
+      // Navegar para a tela 'tela_histórico' após a leitura do QR Code
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => TelaHistorico()), // Navega para a tela de histórico
+      );
+    });
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
   }
 }

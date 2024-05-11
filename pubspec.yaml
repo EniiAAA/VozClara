@@ -1,7 +1,6 @@
 name: flutter_app
 description: "A new Flutter project."
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-
 version: 1.0.0+1
 
 environment:
@@ -18,48 +17,52 @@ dependencies:
   firebase_core: ^2.31.0
   cloud_firestore: ^4.17.3
   url_launcher: ^6.0.12
-
-
+  barcode_widget: ^2.0.4
+  qr_code_scanner: ^1.0.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^3.0.0
+  flutter_lints: ^4.0.0
   flutter_svg: ^2.0.10+1
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/voz_claralogo_4.png"
 
 flutter:
   uses-material-design: true
   assets:
-  - assets/images/voz_claralogo_4.png
-  - assets/vectors/corner_up_left_2_x2.svg
-  - assets/vectors/vector_x2.svg
-  - assets/vectors/container_1_x2.svg
-  - assets/vectors/vector_2_x2.svg
-  - assets/vectors/container_x2.svg
-  - assets/images/hud_camera_1.png
-  - assets/images/qr_code_afinz_1.png
-  - assets/images/voz_claralogo_4.png
-  - assets/vectors/mail_x2.svg
-  - assets/vectors/vector_3_x2.svg
-  - assets/vectors/corner_up_left_3_x2.svg
-  - assets/images/voz_claralogo_4.png
-  - assets/vectors/book_4_x2.svg
-  - assets/vectors/book_6_x2.svg
-  - assets/vectors/corner_up_left_1_x2.svg
-  - assets/vectors/book_2_x2.svg
-  - assets/vectors/book_1_x2.svg
-  - assets/vectors/book_8_x2.svg
-  - assets/vectors/book_3_x2.svg
-  - assets/vectors/book_7_x2.svg
-  - assets/vectors/book_5_x2.svg
-  - assets/vectors/book_x2.svg
-  - assets/images/image_1.png
-  - assets/vectors/mic_x2.svg
-  - assets/vectors/corner_up_left_x2.svg
-  - assets/images/voz_claralogo_4.png
-  - assets/images/voz_claralogo_4.png
-  - assets/vectors/super_g_x2.svg
-  - assets/vectors/shape_1_x2.svg
-  - assets/vectors/vector_1_x2.svg
-  - assets/vectors/facebook_x2.svg
-
+    - assets/images/voz_claralogo_4.png
+    - assets/vectors/corner_up_left_2_x2.svg
+    - assets/vectors/vector_x2.svg
+    - assets/vectors/container_1_x2.svg
+    - assets/vectors/vector_2_x2.svg
+    - assets/vectors/container_x2.svg
+    - assets/images/hud_camera_1.png
+    - assets/images/qr_code_afinz_1.png
+    - assets/images/voz_claralogo_4.png
+    - assets/vectors/mail_x2.svg
+    - assets/vectors/vector_3_x2.svg
+    - assets/vectors/corner_up_left_3_x2.svg
+    - assets/images/voz_claralogo_4.png
+    - assets/vectors/book_4_x2.svg
+    - assets/vectors/book_6_x2.svg
+    - assets/vectors/corner_up_left_1_x2.svg
+    - assets/vectors/book_2_x2.svg
+    - assets/vectors/book_1_x2.svg
+    - assets/vectors/book_8_x2.svg
+    - assets/vectors/book_3_x2.svg
+    - assets/vectors/book_7_x2.svg
+    - assets/vectors/book_5_x2.svg
+    - assets/vectors/book_x2.svg
+    - assets/images/image_1.png
+    - assets/vectors/mic_x2.svg
+    - assets/vectors/corner_up_left_x2.svg
+    - assets/images/voz_claralogo_4.png
+    - assets/images/voz_claralogo_4.png
+    - assets/vectors/super_g_x2.svg
+    - assets/vectors/shape_1_x2.svg
+    - assets/vectors/vector_1_x2.svg
+    - assets/vectors/facebook_x2.svg

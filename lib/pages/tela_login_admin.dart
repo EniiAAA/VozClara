@@ -1,58 +1,34 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class TelaDeLogin extends StatelessWidget {
-  const TelaDeLogin({Key? key}) : super(key: key);
+class TelaLoginAdmin extends StatelessWidget {
+  const TelaLoginAdmin({Key? key}) : super(key: key);
 
-  // Método para realizar o login do usuário
-  void loginUser(String email, String password, BuildContext context) async {
+  // Método para realizar o login do administrador
+  void loginAdmin(String email, String password, BuildContext context) async {
     try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-
-      // Se o login for bem-sucedido, navegue para a tela inicial
-      Navigator.pushReplacementNamed(context, '/tela_inicial');
-    } on FirebaseAuthException catch (e) {
-      // Lidar com erros de autenticação
-      print('Erro ao fazer login: $e');
-
-      // Exibir mensagem de erro para o usuário
-      String errorMessage = 'Erro ao fazer login';
-      if (e.code == 'user-not-found' || e.code == 'wrong-password') {
-        errorMessage = 'E-mail ou senha incorretos';
+      // Verifica se o email e a senha correspondem ao administrador
+      if (email == 'adminturma@vozclara.com' && password == 'admin123') {
+        // Se as credenciais estiverem corretas, redirecione para a tela inicial do administrador
+        Navigator.pushReplacementNamed(context, '/tela_inicial_admin');
+      } else {
+        // Se as credenciais estiverem incorretas, exiba uma mensagem de erro
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Credenciais inválidas. Tente novamente.'),
+            backgroundColor: Colors.red,
+          ),
+        );
       }
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(errorMessage),
-          backgroundColor: Colors.red,
-        ),
-      );
-    }
-  }
-
-  // Método para enviar um e-mail de redefinição de senha
-  void resetPassword(String email, BuildContext context) async {
-    try {
-      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content:
-              Text('Um e-mail de redefinição de senha foi enviado para $email'),
-          backgroundColor: Colors.green,
-        ),
-      );
     } catch (e) {
-      print('Erro ao enviar e-mail de redefinição de senha: $e');
+      // Lidar com erros de autenticação
+      print('Erro ao fazer login do administrador: $e');
 
+      // Exibir mensagem de erro para o administrador
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Erro ao enviar e-mail de redefinição de senha'),
+          content: Text('Erro ao fazer login do administrador'),
           backgroundColor: Colors.red,
         ),
       );
@@ -61,8 +37,8 @@ class TelaDeLogin extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String email = ''; // Defina uma variável para armazenar o e-mail
-    String password = ''; // Defina uma variável para armazenar a senha
+    String email = ''; // Variável para armazenar o e-mail
+    String password = ''; // Variável para armazenar a senha
 
     return Scaffold(
       body: Container(
@@ -101,7 +77,7 @@ class TelaDeLogin extends StatelessWidget {
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10.7),
                       ),
-                      labelText: 'Digite seu e-mail',
+                      labelText: 'Digite seu e-mail (Admin)',
                     ),
                     style: GoogleFonts.workSans(
                       fontWeight: FontWeight.w400,
@@ -123,7 +99,7 @@ class TelaDeLogin extends StatelessWidget {
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10.7),
                       ),
-                      labelText: 'Digite sua senha',
+                      labelText: 'Digite sua senha (Admin)',
                       suffixIcon: IconButton(
                         onPressed: () {
                           // Implemente a lógica para alternar a visibilidade da senha
@@ -143,53 +119,16 @@ class TelaDeLogin extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 20),
-                GestureDetector(
-                  onTap: () {
-                    // Chamar o método para enviar um e-mail de redefinição de senha
-                    resetPassword(email, context);
-                  },
-                  child: Padding(
-                    padding:
-                        EdgeInsets.only(left: 150.0), // alinhamento da frase
-                    child: Text(
-                      'Esqueceu a senha?',
-                      style: GoogleFonts.workSans(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 13,
-                        color: Color(0xB2000000),
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 20),
-                GestureDetector(
-                    onTap: () {
-                      // Navegar para a tela de cadastro
-                      Navigator.pushNamed(context, '/tela_de_cadastro');
-                    },
-                    child: Padding(
-                      padding:
-                          EdgeInsets.only(left: 70.0), // alinhamento da frase
-                      child: Text(
-                        'Não possui conta? Cadastre-se',
-                        style: GoogleFonts.workSans(
-                          fontWeight: FontWeight.w400,
-                          fontSize: 13,
-                          color: Color(0xB2000000),
-                        ),
-                      ),
-                    )),
-                SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () {
-                    // Chamar o método para realizar o login do usuário
-                    loginUser(email, password, context);
+                    // Chamar o método para realizar o login do administrador
+                    loginAdmin(email, password, context);
                   },
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
                         vertical: 10, horizontal: 20),
                     child: Text(
-                      'Login',
+                      'Login (Admin)',
                       style: GoogleFonts.workSans(
                         fontWeight: FontWeight.w700,
                         fontSize: 20,
@@ -205,10 +144,6 @@ class TelaDeLogin extends StatelessWidget {
                     ),
                     shadowColor: Color(0x26FFFFFF),
                   ),
-                ),
-                SizedBox(height: 20),
-                Stack(
-                  clipBehavior: Clip.none,
                 ),
                 SizedBox(height: 20),
               ],
