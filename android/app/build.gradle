@@ -1,3 +1,4 @@
+
 plugins {
     id "com.android.application"
     id 'com.google.gms.google-services'
@@ -7,6 +8,8 @@ plugins {
 
 // Remova a linha abaixo do bloco de plugins
 // id 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.20'
+
+
 
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
@@ -46,7 +49,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.flutter_app"
-        minSdkVersion 20
+        minSdkVersion 21
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName

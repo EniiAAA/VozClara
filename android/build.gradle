@@ -1,9 +1,28 @@
-allprojects {
+buildscript {
+    ext.kotlin_version = '1.6.20' // Atualize esta linha
     repositories {
         google()
         mavenCentral()
     }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:7.0.0' // Ou a versão adequada para o seu projeto
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
 }
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+        mavenCentral()
+    }
+        configurations.all {
+        resolutionStrategy {
+            force "org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.20"
+        }
+    }
+}
+
 
 rootProject.buildDir = '../build'
 subprojects {

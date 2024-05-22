@@ -1,10 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
-import 'tela_de_contatos.dart'; 
-import 'tela_historico.dart'; // Importe a tela de histórico
+import 'package:shared_preferences/shared_preferences.dart';
+import 'tela_de_contatos.dart';
+import 'tela_de_transcricao.dart'; 
 
-class TelaInicial extends StatelessWidget {
+class TelaInicial extends StatefulWidget {
   const TelaInicial({Key? key}) : super(key: key);
+
+  @override
+  _TelaInicialState createState() => _TelaInicialState();
+}
+
+class _TelaInicialState extends State<TelaInicial> {
+  late List<String> _turmasLidas;
+
+  @override
+  void initState() {
+    super.initState();
+    _carregarTurmasLidas();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -15,8 +29,7 @@ class TelaInicial extends StatelessWidget {
         ),
         child: Center(
           child: Container(
-            padding: EdgeInsets.fromLTRB(
-                19, 30, 19, 50), // Ajustei o padding superior
+            padding: EdgeInsets.fromLTRB(19, 30, 19, 50),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -25,7 +38,6 @@ class TelaInicial extends StatelessWidget {
                   alignment: Alignment.topRight,
                   child: GestureDetector(
                     onTap: () {
-                      // Adicione a lógica para o logoff
                       _performLogoff(context);
                     },
                     child: Icon(Icons.logout),
@@ -38,9 +50,7 @@ class TelaInicial extends StatelessWidget {
                     decoration: BoxDecoration(
                       image: DecorationImage(
                         fit: BoxFit.cover,
-                        image: AssetImage(
-                          'assets/images/voz_claralogo_4.png',
-                        ),
+                        image: AssetImage('assets/images/voz_claralogo_4.png'),
                       ),
                     ),
                     width: 214,
@@ -52,31 +62,29 @@ class TelaInicial extends StatelessWidget {
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () {
-                      // Mostrar as opções de contato da instituição
                       _showContactOptions(context);
                     },
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10), // Define a borda menos arredondada
+                        borderRadius: BorderRadius.circular(10),
                       ),
-                      minimumSize: Size(double.infinity, 50), // Define a largura mínima
-                      backgroundColor: Color(0xFF0098FF), // Define a cor de fundo do botão
-                      padding: EdgeInsets.zero, // Define o padding do botão
+                      minimumSize: Size(double.infinity, 50),
+                      backgroundColor: Color(0xFF0098FF),
+                      padding: EdgeInsets.zero,
                     ),
                     child: Text(
                       'Contato',
                       style: TextStyle(
-                        color: Color(0xFFFFFFFF), // Define a cor do texto dentro do botão
+                        color: Color(0xFFFFFFFF),
                       ),
                     ),
                   ),
                 ),
-                SizedBox(height: 10), // Adiciona espaçamento entre os botões
+                SizedBox(height: 10),
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () {
-                      // Adicione a lógica para ler o QR CODE
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => LerQRCodeScreen()),
@@ -84,33 +92,32 @@ class TelaInicial extends StatelessWidget {
                     },
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10), // Define a borda menos arredondada
+                        borderRadius: BorderRadius.circular(10),
                       ),
-                      minimumSize: Size(double.infinity, 50), // Define a largura mínima
-                      backgroundColor: Color(0xFF0098FF), // Define a cor de fundo do botão
+                      minimumSize: Size(double.infinity, 50),
+                      backgroundColor: Color(0xFF0098FF),
                     ),
                     child: Text(
                       'Ler QR CODE',
                       style: TextStyle(
-                        color: Color(0xFFFFFFFF), // Define a cor do texto dentro do botão
+                        color: Color(0xFFFFFFFF),
                       ),
                     ),
                   ),
                 ),
-                SizedBox(height: 10), // Adiciona espaçamento entre os botões
+                SizedBox(height: 10),
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () {
-                      // Adicione a lógica para acessar suas turmas
                       _acessarTurmas(context);
                     },
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10), // Define a borda menos arredondada
+                        borderRadius: BorderRadius.circular(10),
                       ),
-                      minimumSize: Size(double.infinity, 50), // Define a largura mínima
-                      backgroundColor: Color(0xFF0098FF), // Define a cor de fundo do botão
+                      minimumSize: Size(double.infinity, 50),
+                      backgroundColor: Color(0xFF0098FF),
                     ),
                     child: Text(
                       'Acessar suas turmas',
@@ -128,23 +135,29 @@ class TelaInicial extends StatelessWidget {
     );
   }
 
-  // Função para realizar o logoff
   void _performLogoff(BuildContext context) {
     Navigator.pushNamedAndRemoveUntil(
         context, '/tela_de_carregamento', (route) => false);
   }
 
-  // Função para mostrar as opções de contato da instituição
+  void _acessarTurmas(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => TelaHistorico(turmas: _turmasLidas)),
+    );
+  }
+
+  Future<void> _carregarTurmasLidas() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    _turmasLidas = prefs.getStringList('turmasLidas') ?? []; 
+    setState(() {});
+  }
+
   void _showContactOptions(BuildContext context) {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => TelaContatos()),
     );
-  }
-
-  // Função para acessar suas turmas
-  void _acessarTurmas(BuildContext context) {
-    // Adicione aqui a lógica para acessar as turmas do usuário
   }
 }
 
@@ -183,21 +196,71 @@ class _LerQRCodeScreenState extends State<LerQRCodeScreen> {
       this.controller = controller;
     });
     controller.scannedDataStream.listen((scanData) {
-      // Aqui você pode lidar com os dados do QR Code após a leitura
-      // Por exemplo, você pode processar os dados, exibir em um diálogo, etc.
       print('Data scanned: ${scanData.code}');
-      
-      // Navegar para a tela 'tela_histórico' após a leitura do QR Code
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => TelaHistorico()), // Navega para a tela de histórico
-      );
+      _adicionarTurmaLida(scanData.code!);
+      Navigator.pop(context); 
     });
   }
 
+  Future<void> _adicionarTurmaLida(String qrData) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String>? turmasLidas = prefs.getStringList('turmasLidas');
+    if (turmasLidas == null) {
+      turmasLidas = [];
+    }
+    turmasLidas.add(qrData); 
+    await prefs.setStringList('turmasLidas', turmasLidas);
+  }
+
   @override
-  void dispose() {
+  void dispose()
+  {
     controller.dispose();
     super.dispose();
+  }
+}
+
+class TelaHistorico extends StatefulWidget {
+  final List<String> turmas; 
+  const TelaHistorico({Key? key, required this.turmas}) : super(key: key);
+
+  @override
+  _TelaHistoricoState createState() => _TelaHistoricoState();
+}
+
+class _TelaHistoricoState extends State<TelaHistorico> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Histórico'),
+      ),
+      body: Center(
+        child: _buildListaTurmas(widget.turmas),
+      ),
+    );
+  }
+
+  Widget _buildListaTurmas(List<String> turmas) { 
+    return ListView.builder(
+      itemCount: turmas.length,
+      itemBuilder: (context, index) {
+        final sala = turmas[index];
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => TelaTranscricao(sala: sala), 
+                ),
+              );
+            },
+            child: Text(sala),
+          ),
+        );
+      },
+    );
   }
 }

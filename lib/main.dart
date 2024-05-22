@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
-
 import 'package:flutter_app/pages/tela_de_carregamento.dart';
 import 'package:flutter_app/pages/tela_de_login.dart' as LoginScreen;
 import 'package:flutter_app/pages/tela_inicial.dart';
 import 'package:flutter_app/pages/tela_de_cadastro.dart';
 import 'package:flutter_app/pages/tela_de_contatos.dart';
-import 'package:flutter_app/pages/tela_historico.dart';
-import 'package:flutter_app/pages/tela_de_transcrição.dart';
+import 'package:flutter_app/pages/tela_de_transcricao.dart';
 import 'package:flutter_app/pages/tela_inicial_admin.dart';
 import 'package:flutter_app/pages/tela_login_admin.dart';
 import 'package:flutter_app/pages/tela_cadastro_turmas.dart';
@@ -40,7 +38,8 @@ class MyApp extends StatelessWidget {
         '/tela_inicial_admin': (context) => TelaInicialAdmin(),
         '/tela_login_admin': (context) => TelaLoginAdmin(),
         '/tela_cadastro_turmas': (context) => TelaCadastroTurma(turmasRef: _turmasRef),
-        '/tela_de_turmas': (context) => TelaTurmas(turmasRef: _turmasRef), // Adicione o parâmetro turmasRef
+        '/tela_de_turmas': (context) => TelaTurmas(turmasRef: _turmasRef), 
+        '/tela_de_transcricao': (context) => TelaTranscricao(sala: ModalRoute.of(context)!.settings.arguments as String)
       },
     );
   }
